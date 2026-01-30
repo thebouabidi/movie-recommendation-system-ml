@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recommendations</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="logo">🎬</span>
+        <span class="brand-name">MovieReco</span>
+      </div>
+      <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('report') }}">Report</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container section">
+    <div class="section-head">
+      <h1>Recommendations</h1>
+      <p class="muted">
+        User: <strong>{{ user_id }}</strong> • Top <strong>{{ n }}</strong> movies (user-based CF)
+      </p>
+    </div>
+
+    {% if error %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    {% if recommendations %}
+      <div class="grid">
+        {% for m in recommendations %}
+          <div class="movie-card">
+            <div class="movie-title">{{ m.title }}</div>
+            <div class="movie-genres">{{ m.genres }}</div>
+            <div class="movie-score">
+              <span class="badge">predicted</span>
+              <strong>{{ "%.2f"|format(m.score) }}</strong>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <p>No results to show.</p>
+        <a class="btn link-btn" href="{{ url_for('index') }}">Back to Home</a>
+      </div>
+    {% endif %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a class="muted" href="{{ url_for('index') }}">← back</a>
+    </div>
+  </footer>
+
+</body>
+</html>
