@@ -1,0 +1,102 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Recommendation TP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+
+    <nav class="navbar">
+        <div class="container nav-inner">
+        <div class="brand">
+            <span class="logo">🎬</span>
+            <span class="brand-name">MovieReco</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="active">Home</a>
+            <a href="{{ url_for('report') }}">Report</a>
+        </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-inner">
+        <div class="hero-text">
+            <h1>Movie Recommendations (TP)</h1>
+            <p>
+            Simple system using MovieLens: popularity baseline + user-based collaborative filtering.
+            Clean interface, no JS, just Flask + HTML/CSS.
+            </p>
+
+            {% if rmse is not none %}
+            <div class="pill">
+                RMSE (user-based, on existing ratings): <strong>{{ "%.4f"|format(rmse) }}</strong>
+            </div>
+            {% endif %}
+
+            <div class="stats">
+            <div class="stat">
+                <div class="stat-num">{{ user_count }}</div>
+                <div class="stat-label">users (filtered)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">{{ movie_count }}</div>
+                <div class="stat-label">movies (filtered)</div>
+            </div>
+            </div>
+        </div>
+
+        <div class="card form-card">
+            <h2>Get recommendations</h2>
+
+            {% if error %}
+            <div class="alert">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('recommend') }}" class="form">
+            <label for="user_id">User ID</label>
+            <input id="user_id" name="user_id" type="text" placeholder="Example: 1" required>
+
+            <label for="n_reco">Number of recommendations</label>
+            <input id="n_reco" name="n_reco" type="number" min="1" max="30" value="10" required>
+
+            <button type="submit" class="btn">Recommend</button>
+
+            <p class="hint">
+                Tip: if a userId is not found, try a smaller one like 1, 2, 3... (depends on filtering).
+            </p>
+            </form>
+        </div>
+        </div>
+    </header>
+
+    <main class="container section">
+        <div class="section-head">
+        <h2>Top popular movies (baseline)</h2>
+        <p class="muted">This is the simple popularity-based model (mean rating) used as a baseline.</p>
+        </div>
+
+        <div class="grid">
+        {% for m in popular %}
+            <div class="movie-card">
+            <div class="movie-title">{{ m.title }}</div>
+            <div class="movie-genres">{{ m.genres }}</div>
+            <div class="movie-score">
+                <span class="badge">mean rating</span>
+                <strong>{{ "%.2f"|format(m.score) }}</strong>
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+        <span class="muted">TP 4 — Machine Learning (2025/2026) • MovieLens dataset</span>
+        </div>
+    </footer>
+
+    </body>
+    </html>
