@@ -1,44 +1,51 @@
 🎬 CineReco — Movie Recommendation System (Machine Learning)
 
 CineReco is a machine learning–based movie recommendation system developed as a university project (TP).
-It uses the MovieLens dataset to generate personalized movie recommendations using
-**user-based collaborative filtering**.
+It uses **collaborative filtering techniques** to generate personalized movie recommendations
+based on user ratings and similarity between users.
 
-────────────────────────────────
-🧠 How It Works
-────────────────────────────────
-- Build a User × Movie rating matrix
-- Compute cosine similarity between users
-- Predict ratings using similar users (weighted average)
-- Recommend unseen movies with the highest predicted scores
+The project is designed as a **web application using Flask**, with a clean interface built using HTML and CSS.
 
-A popularity-based model (mean rating) is also used as a baseline.
+🧠 How the Recommendation Works
 
-────────────────────────────────
+1️⃣ Data Preparation  
+The system uses the MovieLens dataset and works with:
+
+- userId  
+- movieId  
+- rating  
+- title  
+- genres  
+
+Users and movies with very few ratings are filtered to improve recommendation quality.
+
+2️⃣ User-Based Collaborative Filtering  
+The recommendation process is based on:
+
+- Building a User × Movie rating matrix  
+- Computing cosine similarity between users  
+- Selecting the most similar users (neighbors)  
+- Predicting ratings using a weighted average  
+
+Movies not yet rated by the target user are recommended.
+
+3️⃣ Popularity-Based Baseline  
+As a comparison baseline, the system also recommends movies
+with the highest **average rating**.
+
 📂 Dataset
-────────────────────────────────
-MovieLens (latest-small):
-- ratings.csv
-- movies.csv
 
-Users and movies with fewer than 20 ratings are filtered to improve recommendation quality.
+The project uses the **MovieLens (latest-small)** dataset.
 
-────────────────────────────────
-⚙️ Installation & Run
-────────────────────────────────
+Files:
+- ratings.csv  
+- movies.csv  
+
+The dataset is downloaded automatically when the application starts.
+
+⚙️ Installation
+
+1. Clone the repository
 ```bash
-python -m venv venv
-# Activate venv
-pip install -r requirements.txt
-python app.py
-Open: http://127.0.0.1:5000/
-
-────────────────────────────────
-🛠 Technologies
-────────────────────────────────
-Python · Pandas · NumPy · Scikit-learn · Flask · HTML · CSS
-
-────────────────────────────────
-👤 Author
-────────────────────────────────
-thebouabidi(SALMA BOUABIDI) — Cybersecurity & AI Student | Full-Stack Web Developer
+git clone https://github.com/your-username/CineReco.git
+cd CineReco
